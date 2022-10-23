@@ -1,0 +1,220 @@
+#:kivy 2.1.0
+<FlatButton@ButtonBehavior+Label>:
+    font_size: 14
+<SystemWindow>:
+    id: main_win
+    orientation: "vertical"
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+        
+    BoxLayout:
+        id: header
+        size_hint_y: None
+        height: 40
+        canvas.before:
+            Color:
+                rgba: (.78,.27,.89,1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: 'GotoGro POS System'
+            size_hint_x: .9
+            bold: True
+            color: (1,1,1,1)
+        FlatButton:
+            id: loggedin_user
+            text: 'Placeholder'
+            size_hint_x: .1
+            color: (1,1,1,1)
+            underline: True
+            on_release: root.logout()
+
+    BoxLayout:
+        id: current
+        size_hint_y: None
+        height: 50
+        canvas.before:
+            Color:
+                rgba: (.78,.27,.89,1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Button:
+            text: 'Current Item:'
+            background_normal: ''
+            background_color: (.78,.27,.89,1)
+            size_hint_x: .4
+        Button:
+            id: cur_product
+            text: 'No Current Product'
+            background_color: (.78,.3,.98,1)
+            background_normal: ''
+            
+        Button:
+            id: cur_price
+            text: 'Price'
+            background_normal: ''
+            background_color: (.78,.6,.8,1)
+            size_hint_x: .2
+
+    BoxLayout:
+        padding: 5
+        BoxLayout:
+            id: product_details
+            orientation: "vertical"
+            size_hint_x: .8
+            spacing: 10
+
+            #BoxLayout for the Label Headers
+            BoxLayout:
+                id: product_labels
+                size_hint_y: None
+                height: 40
+                canvas.before:
+                    Color: 
+                        rgba: (.78,.27,.89,1)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+                FlatButton:
+                    text: 'Qty'
+                    size_hint_x: .1
+                FlatButton:
+                    text: 'Product Code'
+                    size_hint_x: .3
+                FlatButton:
+                    text: 'Product Name'
+                    size_hint_x: .3
+                FlatButton:
+                    text: 'Price'
+                    size_hint_x: .1
+                FlatButton:
+                    text: 'Product Total'
+                    size_hint_x: .2
+
+            #BoxLayout for the input boxes
+            BoxLayout:
+                id: product_inputs
+                size_hint_y: None
+                height: 40
+                spacing: 5
+                TextInput:
+                    id: qty_input
+                    size_hint_x: .1
+                    multiline: False
+                    on_text_validate: root.update_purchases()
+                TextInput:
+                    id: code_input
+                    size_hint_x: .3
+                    multiline: False
+                    on_text_validate: root.update_purchases()
+                TextInput:
+                    id: pname_input
+                    size_hint_x: .3
+                TextInput:
+                    id: price_input
+                    size_hint_x: .1
+                TextInput:
+                    id: total_input
+                    size_hint_x: .2
+            #BoxLayout to display the item that has been entered and its description        
+            BoxLayout:
+                id: add_to_sale
+                orientation: 'vertical'
+                spacing: 10
+                BoxLayout:
+                    size_hint_y: None
+                    height: 30
+                    canvas.before:
+                        Color:
+                            rgba: (.78,.27,.89,1)
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    Label:
+                        text: "QTY"
+                        size_hint_x: .1
+                    Label:
+                        text: "Product Code"
+                        size_hint_x: .3
+                    Label:
+                        text: "Product Name"
+                        size_hint_x: .3
+                    Label:
+                        text: "Price"
+                        size_hint_x: .1
+                    Label:
+                        text: "Price Total"
+                        size_hint_x: .2
+                #From the .py file the information for the product will be passed to this preiew            
+                GridLayout:
+                    id: products
+                    cols: 1
+                BoxLayout:
+                    id: sys_fields
+                    spacing: 10
+                    size_hint_y: None
+                    height: 35
+                BoxLayout:
+                    id: system_fields
+                    spacing: 10
+                    size_hint_y: None
+                    height: 35
+                    TextInput:
+                        id: sale_code
+                        hint_text: "Sales Code"
+                        multiline: False
+                        focus: True
+                        on_text_validate: member_code.focus = True
+                    TextInput:
+                        id: member_code
+                        hint_text: "Member Code"
+                        multiline: False 
+                    Button:
+                        id: create_sale
+                        text: 'Create Sale'
+                        on_release: root.create_sale()
+                    Button:
+                        id: reset_sale
+                        text: 'Cancel Sale'
+                        on_release: root.reset_sale()
+                    Button:
+                        id: remove_item
+                        text: 'Remove Item'
+                        on_release: root.remove_item_field()
+        #BoxLayout that contains the receipt layout preview             
+        BoxLayout:
+            id: preview
+            orientation: 'vertical'
+            size_hint_x: .2
+
+            TextInput: 
+                id: receipt_preview
+                readonly:True
+                text: 'GotoGro\n 10 Hawthron Road\n Tel: 1300 555 333\n Receipt No: \n Date: \n\n'
+            TextInput:
+                id: discount
+                height: 35
+                size_hint_y: None
+                hint_text:'Discount Code'
+                multiline: False
+                on_text_validate: root.apply_discount()
+
+    BoxLayout:
+        id: footer
+        size_hint_y: None
+        height: 30
+        canvas.before:
+            Color:
+                rgba: (.78,.27,.89,1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Label: 
+            text: 'GotoGro Sales System'

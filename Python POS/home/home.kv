@@ -1,0 +1,45 @@
+ #: import Window kivy.core.window.Window
+
+<FlatButton@ButtonBehavior+Label>:
+    font_size: 16
+
+<HomeWindow>:
+    id: main_win
+    orientation: "vertical"
+    space_x: self.size[0]/3
+    canvas.before: 
+        Color:
+            rgba: (1,1,1,1)
+        Rectangle:
+            size:self.size
+            pos: self.pos
+
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+        canvas.before: 
+            Color:
+                rgba: (.78,.27,.89,1)
+            Rectangle:
+                size:self.size
+                pos: self.pos
+        Label:
+            text: "GotoGro POS System"
+            bold:  True 
+            size_hint_x: .9
+        FlatButton:
+            text: "Quit"
+            size_hint_x: .1
+            on_release: Window.close()
+
+    BoxLayout:
+        orientation: "vertical"
+        # padding: main_win.space_x, 10
+        # spacing: 20
+        Button:
+            text: "LOGIN TO GOTOGRO"
+            background_color: (.78,.27,.89,1)
+            background_normal: ''
+            on_release: root.login()
+
+
